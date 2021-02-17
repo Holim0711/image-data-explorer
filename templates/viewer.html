@@ -13,13 +13,24 @@
   </head>
   <body>
     <div class="row">
-      {% for image in images %}
-      <div class="col-sm-3">
+      <div class="col-sm-2">
         <div class="card" style="width:100%;">
-          <img src="{{image}}" class="card-img-top" style="max-width:600px; margin:auto;"/>
+          {% for att, val in args.items() %}
+          <span>{{att}}: {{val}}</span>
+          {% endfor %}
         </div>
       </div>
-      {% endfor %}
+      <div class="col-sm-10">
+        <div class="row">
+          {% for image in images %}
+          <div class="col-sm-2">
+            <div class="card" style="width:100%;">
+              <img src="{{image}}" class="card-img-top" style="max-width:600px; margin:auto;"/>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
     </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

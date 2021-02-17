@@ -33,8 +33,10 @@ df, atts, vals, url_root = read_config()
 
 @app.route('/')
 def viewer():
-    random_seed = random.randint(0, 9999)
-    random.seed(random_seed)
+    seed = request.args.get('seed', random.randint(0, 9999))
+    random.seed(seed)
+
+    args = {x: request.args.get(x) for x in atts}
 
     indices = random.sample(range(0, len(df)), 10)
 
@@ -42,4 +44,4 @@ def viewer():
 
     images = [os.path.join(url_root, x) for x in images]
 
-    return render_template('viewer.html', images=images)
+    return render_template('viewer.html', seed=seed, images=images, args=args)
