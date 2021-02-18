@@ -1,0 +1,4 @@
+{
+    "data": "path/to/some/data.csv",
+    "url_root": "http://some.image.serving.url"
+}
