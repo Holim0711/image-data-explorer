@@ -31,7 +31,10 @@
               <tbody>
                 <tr>
                   <td>
-                    <input id="request-button" class="btn btn-primary" type="button" value="explore">
+                    <input id="request-explore" class="btn btn-primary" type="button" value="explore">
+                  </td>
+                  <td>
+                    <input id="request-default" class="btn btn-primary" type="button" value="default">
                   </td>
                 </tr>
                 <tr>
@@ -70,17 +73,20 @@
     <script>
       var seed_input = document.getElementById("request-seed");
       var args_inputs = document.getElementsByClassName("request-args");
-      document.getElementById("request-button").onclick = function() {
+      document.getElementById("request-explore").onclick = function() {
         let seed = seed_input.value;
         param_str = "?seed=" + seed;
         Array.prototype.forEach.call(args_inputs, function(e) {
-          let att = e.id.split('-')[2]
+          let att = e.id.split('-')[2];
           let idx = e.selectedIndex;
           let val = e.options[idx].value;
           if (val != "∅")
-            param_str += "&" + att + "=" + val
-        })
+            param_str += "&" + att + "=" + val;
+        });
         location.href = param_str;
+      };
+      document.getElementById("request-default").onclick = function() {
+        location.href = "?";
       };
     </script>
   </body>
