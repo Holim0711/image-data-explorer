@@ -31,10 +31,10 @@
               <tbody>
                 <tr>
                   <td>
-                    <input id="request-explore" class="btn btn-primary" type="button" value="explore">
+                    <input id="request-reset" class="btn btn-danger" type="button" value="reset">
                   </td>
                   <td>
-                    <input id="request-default" class="btn btn-primary" type="button" value="default">
+                    <input id="request-explore" class="btn btn-primary" type="button" value="explore">
                   </td>
                 </tr>
                 <tr>
@@ -85,7 +85,7 @@
         });
         location.href = param_str;
       };
-      document.getElementById("request-default").onclick = function() {
+      document.getElementById("request-reset").onclick = function() {
         location.href = "?";
       };
     </script>
