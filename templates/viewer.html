@@ -12,23 +12,53 @@
     <title>Hello, world!</title>
   </head>
   <body>
-    <div class="row">
-      <div class="col-sm-2">
-        <div class="card" style="width:100%;">
-          {% for att, val in args.items() %}
-          <span>{{att}}: {{val}}</span>
-          {% endfor %}
-        </div>
-      </div>
-      <div class="col-sm-10">
-        <div class="row">
-          {% for image in images %}
-          <div class="col-sm-2">
-            <div class="card" style="width:100%;">
-              <img src="{{image}}" class="card-img-top" style="max-width:600px; margin:auto;"/>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-10">
+          <div class="row">
+            {% for image in images %}
+            <div class="col-sm-2">
+              <div class="card" style="width:100%;">
+                <img src="{{image}}" class="card-img-top" style="max-width:600px; margin:auto;"/>
+              </div>
             </div>
+            {% endfor %}
           </div>
-          {% endfor %}
+        </div>
+        <div class="col-sm-2">
+          <div class="card" style="width:100%;">
+            <table class="table">
+              <tbody>
+                <tr>
+                  <td>
+                    <input id="request-button" class="btn btn-primary" type="button" value="explore">
+                  </td>
+                </tr>
+                <tr>
+                  <td>seed</td>
+                  <td>
+                    <input id="request-seed" type="number" class="form-control" value={{seed}} min=0 max=9999>
+                  </td>
+                </tr>
+                {% for att, vals in args.items() %}
+                <tr>
+                  <td>{{att}}</td>
+                  <td>
+                    <select id="request-args-{{att}}" class="request-args custom-select">
+                      {% for val, chosen in vals %}
+                      <option
+                        value="{% if val is not none %}{{val}}{% else %}∅{% endif %}"
+                        {% if chosen %}selected{% endif %}>
+                        {{val}}
+                      </option>
+                      {% endfor %}
+                    </select>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -37,5 +67,21 @@
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script>
+      var seed_input = document.getElementById("request-seed");
+      var args_inputs = document.getElementsByClassName("request-args");
+      document.getElementById("request-button").onclick = function() {
+        let seed = seed_input.value;
+        param_str = "?seed=" + seed;
+        Array.prototype.forEach.call(args_inputs, function(e) {
+          let att = e.id.split('-')[2]
+          let idx = e.selectedIndex;
+          let val = e.options[idx].value;
+          if (val != "∅")
+            param_str += "&" + att + "=" + val
+        })
+        location.href = param_str;
+      };
+    </script>
   </body>
 </html>
